@@ -1,3 +1,4 @@
+#方法一：
 class Solution:
     def validPalindrome(self, s: str) -> bool:
         def repack(s: str,flag:int) -> bool:
@@ -11,5 +12,24 @@ class Solution:
                     r2 = repack(s[i + 1:len(s)-i], flag)
                     return r1 or r2
                 i+=1
+            return True
+        return repack(s,0)
+
+#方法二：
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        def repack(s: str,flag:int) -> bool:
+            last_index = len(s) - 1
+            first_index = 0
+            for i in range(int(len(s) / 2)):
+                if s[first_index] != s[last_index]:
+                    flag += 1
+                    if flag == 2:
+                        return False
+                    r1 = repack(s[first_index:last_index], flag)
+                    r2 = repack(s[first_index + 1:last_index + 1], flag)
+                    return r1 or r2
+                first_index += 1
+                last_index -= 1
             return True
         return repack(s,0)
