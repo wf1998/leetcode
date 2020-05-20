@@ -1,0 +1,13 @@
+class Solution:
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        #使用该数组来记录一年内每一天及之前的消费情况，如cost_record[8]=9就代表1-8天累共计消费9元
+        cost_record = [0] * 366
+        for i in range(1, 366):
+            if i not in days:#如果第i天不属于消费天，那么该天的消费就为0，就与第i-1天相等
+                cost_record[i] = cost_record[i - 1]
+                continue
+            #如果第i天属于消费天，这里使用先享受，后付款的策略，即如果本该在第i-7天付款，我们改到第i天付款，以此类推，
+            #那么，第i天付款的策略就只有3种，即分别在第i-1或i-7或i-30就把第i天的钱付了，我们只需找出那种方式最划算
+            #注：在本题中不需要考虑i-7<0以及i-30小于0的状况，可为了让程序更加健壮，可以将小于0的索引置为0
+            cost_record[i] = min(costs[0] + cost_record[i - 1], costs[1] + cost_record[i - 7], costs[2] + cost_record[i - 30])
+        return cost_record[-1]
