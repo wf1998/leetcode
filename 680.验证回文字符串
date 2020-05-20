@@ -1,0 +1,15 @@
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        def repack(s: str,flag:int) -> bool:
+            i=0
+            while i<int(len(s) / 2):
+                if s[i] != s[~i]:
+                    flag += 1
+                    if flag == 2:
+                        return False
+                    r1 = repack(s[i:~i], flag)
+                    r2 = repack(s[i + 1:len(s)-i], flag)
+                    return r1 or r2
+                i+=1
+            return True
+        return repack(s,0)
