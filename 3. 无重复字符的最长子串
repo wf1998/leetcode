@@ -1,0 +1,13 @@
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if len(s)<2:
+            return len(s)
+        subs=""
+        maxL=0
+        for item in s:
+            if item not in subs:
+                subs=subs.__add__(item)
+                maxL = max(len(subs),maxL)
+            else:
+                subs=subs[subs.index(item)+1:].__add__(item)
+        return maxL
